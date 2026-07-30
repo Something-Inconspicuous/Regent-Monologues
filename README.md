@@ -2,6 +2,30 @@
 
 The Regent (and others) will properly trash talk their foes when using His Majesty's Monologue skill.
 
+## Installing
+
+There are two main ways to install a mod for Slay the Spire 2:
+
+ 1. Through the Steam Workshop
+ 2. Manually
+
+### Installing through the Steam Workshop
+
+ 1. Go to the "Regent Monologues" [item](https://steamcommunity.com/sharedfiles/filedetails/?id=3774233159) on the steam workshop.
+ 2. Click the big green "+ Subscribe" button.
+
+### Manually Installing
+
+ 1. Go to the [Releases](https://github.com/Something-Inconspicuous/Regent-Monologues/releases/) section on this github, and find the latest one.
+ 2. Download either the `.zip` file, or download the `.dll`, `.json`, and `.pck` files.
+ 3. Put/Extract the files into a folder named `RegentMonologues` in your mods folder.
+ 
+#### Addendum: how to find your mods folder
+
+ 1. Right click on Slay the Spire 2 in your games list on the left in Steam.
+ 2. Click on `Manage > Browse local files`
+ 3. Find the folder named `mods`. If it is absent, just create a folder named `mods` here.
+
 ## Your writing sucks!
 
 Yeah; I am obviously not a part of nor in contact with any of the writing staff of MegaCrit. 
@@ -12,8 +36,12 @@ Please do not open issues or pull requests just to change the monologues. Unless
 
 ## Adding Monologues
 
-To add monologues to either base game characters or your own, simply follow the format.
-In your `characters.json` file, add your monologue lines, like so:
+To add monologues to either base game characters or your own, one would make an additional mod, sort of as an addon.
+This addon does not actually need any content, just the `.pck` file. Still, it might be easiest to use one of the
+[mod templates](https://github.com/Alchyr/ModTemplate-StS2) anyway. Of course, mods that add content also can add 
+monologues, but if you do so don't make this mod a dependency; the loc strings can just sit unused.
+
+In your mod's `characters.json` file, add your monologue lines, like so:
 
 ```json
 "<MOD_ID>-<CHAR_ID>.monologue.0": "Some monologuing.",
