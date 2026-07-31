@@ -30,7 +30,22 @@ namespace RegentMonologues.Code;
 
 public class MonologueSingleton() : CustomSingletonModel(HookType.Combat)
 {
-    public static readonly SpireField<CharacterModel, LocString[]> Monologues = new(() => null);
+    /// <summary>
+    /// All possible monologues for each character from the LocTable, including monologues added by mods.
+    /// </summary>
+    /// <param name="character">The character to get monologues for.</param>
+    /// <returns>An array of <see cref="LocString"/>s containing the character's possible monologues.</returns>
+    public static readonly SpireField<CharacterModel, LocString[]> Monologues = new(LoadMonologues);
+
+    /// <summary>
+    /// Gets all possible monologues for the character from the LocTable, including monologues added by mods.
+    /// </summary>
+    /// <param name="character">The character to get monologues for.</param>
+    /// <returns>An array of <see cref="LocString"/>s containing the character's possible monologues.</returns>
+    public static LocString[] GetMonologues(CharacterModel character)
+    {
+        return Monologues[character]!;
+    }
 
     private static Rng? rng;
 
@@ -38,14 +53,7 @@ public class MonologueSingleton() : CustomSingletonModel(HookType.Combat)
     {
         if (cardPlay.Player.HasPower<MonologuePower>())
         {
-            LocString[]? monologues = Monologues[cardPlay.Player.Character];
-
-            if (monologues == null)
-            {
-                MainFile.Logger.Warn($"No monologues loaded for {cardPlay.Player.Character}; loading now.");
-                monologues = GetMonologues(cardPlay.Player.Character);
-                Monologues[cardPlay.Player.Character] = monologues;
-            }
+            LocString[] monologues = GetMonologues(cardPlay.Player.Character);
 
             rng ??= Rng.Chaotic;
 
@@ -60,12 +68,7 @@ public class MonologueSingleton() : CustomSingletonModel(HookType.Combat)
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Gets all possible monologues for the character from the LocTable, including monologues added by mods.
-    /// </summary>
-    /// <param name="character">The character to get monologues for.</param>
-    /// <returns>An array of <see cref="LocString"/>s containing the character's possible monologues.</returns>
-    private static LocString[] GetMonologues(CharacterModel character)
+    private static LocString[] LoadMonologues(CharacterModel character)
     {
         string name = character.Id.Entry;
         IEnumerable<string> keys = LocManager.Instance.GetTable("characters").Keys;
